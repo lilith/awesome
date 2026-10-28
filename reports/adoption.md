@@ -4,12 +4,12 @@ Captured 2026-10-27. Each figure links to the page that lists it.
 
 | Figure | Value | Check it |
 |---|---|---|
-| crates.io downloads, all time | 4,706,717 | [crates.io/users/lilith](https://crates.io/users/lilith?sort=downloads) |
+| crates.io downloads, all time | 4,693,763 | [crates.io/users/lilith](https://crates.io/users/lilith?sort=downloads) |
 | NuGet downloads, all time | 40,898,517 | [nuget.org/profiles/imazen](https://www.nuget.org/profiles/imazen) |
 | Repositories depending on ImageResizer | ≥2,569 | [GitHub dependents](https://github.com/imazen/resizer/network/dependents) |
 | Packages depending on ImageResizer | 81 | [GitHub dependent packages](https://github.com/imazen/resizer/network/dependents?dependent_type=PACKAGE) |
-| crates.io reverse dependencies, summed | 340 | [crates.io](https://crates.io/users/lilith?sort=downloads) |
-| GitHub stars, public repositories | 6,629 | [imazen by stars](https://github.com/orgs/imazen/repositories?type=public&sort=stargazers) |
+| crates.io reverse dependencies, summed | 335 | [crates.io](https://crates.io/users/lilith?sort=downloads) |
+| GitHub stars, public repositories | 6,185 | [imazen by stars](https://github.com/orgs/imazen/repositories?type=public&sort=stargazers) |
 
 ## Most downloaded crates (last 90 days)
 
