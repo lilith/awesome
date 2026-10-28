@@ -426,7 +426,26 @@ def ai_report(d):
         '', f"Prompt text is never kept: the inventory counts entries and words. Live figures and their scopes: [{SITE}]({SITE}).", ''])
 
 
-def quality_report():
+def corpus_paragraph(d):
+    """The test corpora the page measures, each in its own unit; empty when the page carries none."""
+    c = d.get('corpora') or {}
+    parts = []
+    if c.get('imazen_26'):
+        i = c['imazen_26']
+        parts.append(f"[imazen-26](https://github.com/imazen/imazen-26), our real-world corpus, holds {fmt(i['originals'])} original images in "
+                     f"{i['categories']} categories ({fmt(i['megapixels'])} megapixels) and {fmt(i['rendition_files'])} registered renditions of them")
+    if c.get('builder'):
+        parts.append(f"the corpus builder has collected {fmt(c['builder']['image_files'])} image files in {c['builder']['formats']} format groups")
+    if c.get('research'):
+        r = c['research']
+        parts.append(f"the IQA research library holds {fmt(r['datasets'])} datasets with {fmt(r['tested'])} human-labelled test rows")
+    if not parts:
+        return []
+    text = '; '.join(parts)
+    return [f"**Measured test data.** {text[0].upper() + text[1:]}. Counted from the corpora themselves, each figure in its own unit.", '']
+
+
+def quality_report(d):
     return '\n'.join([
         '# Quality and security', '',
         "Image codecs take bytes from strangers and turn them into pixels, usually on a server that also holds other people's data. A bug in a decoder is a "
@@ -443,6 +462,7 @@ def quality_report():
         '([what each costs to run](https://metric-brief.imazen.org/#models)), gathered over a terabyte of IQA datasets, and scored millions of encodes.', '',
         '**What it replaces.** ImageMagick has [913 published vulnerabilities](https://app.opencve.io/cve/?vendor=imagemagick) (OpenCVE, checked 2026-10-28). '
         'This toolset is built to replace it on servers: memory-safe, faster, with better compression.', '',
+        *corpus_paragraph(d),
         "*The owner's account; figures without a link are the owner's statements. The live version is chapter 05 of "
         f"[{SITE}]({SITE}).*", ''])
 
@@ -602,7 +622,7 @@ def main():
         'reports/projects.md': projects_report(d),
         'reports/adoption.md': adoption_report(d),
         'reports/ai-assisted-development.md': ai_report(d),
-        'reports/quality-and-security.md': quality_report(),
+        'reports/quality-and-security.md': quality_report(d),
         'README.md': readme(d, asof, meas),
     }
     for name, text in files.items():

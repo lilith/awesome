@@ -87,7 +87,7 @@ Safety the compiler checks (`#![forbid(unsafe_code)]`), resource limits and canc
 
 `python3 tools/build.py` rebuilds every card and report from the public data behind [https://stats.lilith.now/](https://stats.lilith.now/) (https://stats.lilith.now/data.json); the GitHub and OpenSSF measurements are in [data/](data/) with their commands. Standard library only.
 
-*Generated 2026-10-28 from data revision 6326e1dc35f6.*
+*Generated 2026-10-28 from data revision 39d1a17ada37.*
 
 [zenjpeg]: https://github.com/imazen/zenjpeg
 [zenyuv]: https://github.com/imazen/zenjpeg
