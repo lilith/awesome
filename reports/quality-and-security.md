@@ -1,0 +1,17 @@
+# Quality and security
+
+Image codecs take bytes from strangers and turn them into pixels, usually on a server that also holds other people's data. A bug in a decoder is a security hole. All of this work is shaped by that fact, and it is also the reason frontier AI models can write so much of the code.
+
+**Memory and concurrency safety the compiler checks.** Our crates compile with `#![forbid(unsafe_code)]`, so the compiler rules out out-of-bounds writes, use-after-free and data races. SIMD goes through two small primitive crates, [archmage](https://imazen.github.io/archmage/) and magetypes, that wrap the intrinsics once; a few older crates still carry unsafe code, and we treat it as debt.
+
+**Limits on everything.** Decoders and encoders take resource limits (dimensions, pixel counts, memory) and fail cleanly instead of taking the process down. Long jobs accept cooperative cancellation ([enough](https://crates.io/crates/enough)), and CPU cost is predicted before the work starts.
+
+**Bytes in, bytes out.** The domain is bytes and configuration in, bytes out, which makes it unusually testable. When a C reference exists we test against it bit for bit; where pixels may differ, perceptual metrics tell us whether a person would see it.
+
+**Fuzzing, continually, on every platform**, with minimized regression files every later build must pass.
+
+**Metrics we can trust.** [zensim](https://github.com/imazen/zensim) is our perceptual metric; to build it we ported 141 image-quality metrics to Rust ([what each costs to run](https://metric-brief.imazen.org/#models)), gathered over a terabyte of IQA datasets, and scored millions of encodes.
+
+**What it replaces.** ImageMagick has [913 published vulnerabilities](https://app.opencve.io/cve/?vendor=imagemagick) (OpenCVE, checked 2026-10-28). This toolset is built to replace it on servers: memory-safe, faster, with better compression.
+
+*The owner's account; figures without a link are the owner's statements. The live version is chapter 05 of [https://stats.lilith.now/](https://stats.lilith.now/).*

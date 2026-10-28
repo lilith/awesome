@@ -1,0 +1,70 @@
+{
+  "measured_on": "2026-10-28",
+  "measured_by": "the zenfeats inventory's coordinator, from GitHub's public API and the OpenSSF criticality_score tool; every number below can be re-run with the command beside it",
+  "upstream_merged_pull_requests_12_months": {
+    "count": 72,
+    "since": "2025-10-28",
+    "command": "gh api -X GET search/issues -f q='author:lilith is:pr is:merged merged:>=2025-10-28 -org:imazen -user:lilith' --jq .total_count",
+    "by_repository": {
+      "image-rs/image-tiff": 11,
+      "pdf-rs/fax": 9,
+      "awxkee/moxcms": 8,
+      "image-rs/weezl": 6,
+      "libjxl/jxl-rs": 4,
+      "inflation/jpegxl-rs": 4,
+      "etemesi254/zune-image": 4,
+      "kornelski/rust-rgb": 3,
+      "kornelski/dssim": 3,
+      "ImageOptim/mozjpeg-rust": 3,
+      "kornelski/rust-libpng-sys": 2,
+      "image-rs/image-gif": 2,
+      "zakarumych/rapid-qoi": 1,
+      "tracel-ai/cubecl": 1,
+      "Spr-Aachen/Twilight": 1,
+      "rust-lang/rust": 1,
+      "okaneco/safe_unaligned_simd": 1,
+      "NoXF/libwebp-sys": 1,
+      "kornelski/yuv": 1,
+      "kornelski/avif-serialize": 1,
+      "kornelski/avif-parse": 1,
+      "image-rs/image-webp": 1,
+      "ImageOptim/libimagequant": 1,
+      "Frommi/miniz_oxide": 1,
+      "chaofengc/IQA-PyTorch": 1
+    }
+  },
+  "external_contributors_12_months": {
+    "since": "2025-10-28",
+    "unique_people_across_imazen": 13,
+    "most_on_one_repository": 3,
+    "by_repository": {
+      "imazen/astro-broken-link-checker": 3,
+      "imazen/rav1d-safe": 2,
+      "imazen/archmage": 2,
+      "imazen/heic": 2,
+      "imazen/folioxml": 1,
+      "imazen/zenjpeg": 1,
+      "imazen/zenavif-parse": 1,
+      "imazen/butteraugli": 1,
+      "imazen/libwebp-net": 1,
+      "imazen/webpx": 1
+    },
+    "command": "gh api -X GET search/issues -f q='org:imazen is:pr is:merged merged:>=2025-10-28 -author:lilith' --paginate (people only; bot accounts left out)"
+  },
+  "openssf_criticality_score": {
+    "tool": "github.com/ossf/criticality_score/v2 v2.0.4 (go install ...@latest on 2026-10-28)",
+    "command": "GITHUB_TOKEN=... criticality_score -depsdev-disable -format csv <repository URLs>",
+    "note": "Run without the deps.dev dependents signal, which needs a Google Cloud project; that signal can only raise a score. imazen/zenjpeg failed in the tool's contributor query and has no score.",
+    "scores": {
+      "imazen/imageflow": 0.46576,
+      "imazen/resizer": 0.41122,
+      "imazen/archmage": 0.34678,
+      "imazen/enough": 0.2645,
+      "imazen/webpx": 0.32281,
+      "imazen/imageflow-server": 0.33708,
+      "imazen/imageflow-dotnet": 0.34497,
+      "imazen/linear-srgb": 0.27458,
+      "imazen/mozjpeg-rs": 0.28865
+    }
+  }
+}
