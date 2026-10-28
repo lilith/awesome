@@ -439,10 +439,18 @@ def corpus_paragraph(d):
     if c.get('research'):
         r = c['research']
         parts.append(f"the IQA research library holds {fmt(r['datasets'])} datasets with {fmt(r['tested'])} human-labelled test rows")
-    if not parts:
-        return []
-    text = '; '.join(parts)
-    return [f"**Measured test data.** {text[0].upper() + text[1:]}. Counted from the corpora themselves, each figure in its own unit.", '']
+    out = []
+    if parts:
+        text = '; '.join(parts)
+        out += [f"**Measured test data.** {text[0].upper() + text[1:]}. Counted from the corpora themselves, each figure in its own unit.", '']
+    ci = d.get('ci_tests')
+    if ci and ci.get('executed'):
+        plat = ci.get('by_platform') or {}
+        arm = sum(n for k, n in plat.items() if k.endswith('arm64'))
+        out += [f"**Executed in CI.** The newest successful run of each workflow executed {fmt(ci['executed'])} tests ({fmt(ci['failed'])} failed, "
+                f"{fmt(ci['doctests'])} of them doctests) in {fmt(ci['jobs'])} jobs across {fmt(ci['repositories'])} repositories, on Linux, macOS and "
+                f"Windows; {fmt(arm)} of those jobs ran on ARM64. GitHub keeps job logs for 90 days, so this counts one run per workflow, not a year.", '']
+    return out
 
 
 def quality_report(d):

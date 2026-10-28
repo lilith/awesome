@@ -16,4 +16,6 @@ Image codecs take bytes from strangers and turn them into pixels, usually on a s
 
 **Measured test data.** [imazen-26](https://github.com/imazen/imazen-26), our real-world corpus, holds 2,115 original images in 21 categories (12,672 megapixels) and 25,766 registered renditions of them; the corpus builder has collected 148,177 image files in 16 groups (formats, animation, wide gamut, edge cases); the IQA research library holds 230 datasets with 799,030 human-labelled test rows. Counted from the corpora themselves, each figure in its own unit.
 
+**Executed in CI.** The newest successful run of each workflow executed 390,079 tests (6 failed, 9,417 of them doctests) in 1,135 jobs across 65 repositories, on Linux, macOS and Windows; 272 of those jobs ran on ARM64. GitHub keeps job logs for 90 days, so this counts one run per workflow, not a year.
+
 *The owner's account; figures without a link are the owner's statements. The live version is chapter 05 of [https://stats.lilith.now/](https://stats.lilith.now/).*
