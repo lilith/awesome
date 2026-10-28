@@ -448,10 +448,13 @@ def quality_report():
 
 
 TOPIC_NOTES = {
-    'Codecs': 'encode and decode, in safe Rust', 'AV1 and codec internals': 'the AV1 encoders, decoder and containers under AVIF',
-    'Processing': 'resize, quantize, blend, tone-map, enhance', 'Pixels & color': 'pixel formats, transfer functions, color',
-    'Pipeline & framework': 'streaming pipeline, codec traits, layout', 'Compression': 'DEFLATE, Zopfli, Zstandard',
-    'Psychovisual metrics': 'perceptual quality, to tune the codecs', 'Pickers & ML': 'the right codec and quality per image',
+    'JPEG': 'encoders, decoder and YUV, in safe Rust', 'WebP': 'lossy and lossless, plus libwebp bindings',
+    'AVIF & AV1': 'the container, three AV1 encoders and a decoder', 'JPEG XL': 'encoder, decoder, GPU kernels, inspector',
+    'PNG & GIF': 'PNG and animated GIF', 'HDR & gain maps': 'Ultra HDR gain maps and tone mapping',
+    'Learned codecs': 'JPEG AI and Cool-chic in safe Rust', 'HEIC, RAW & more formats': 'HEIC, camera RAW, TIFF, PDF, SVG, JPEG 2000, bitmaps',
+    'Codec API & pipeline': 'shared codec traits and the streaming pipeline', 'Processing': 'resize, filter, blend, quantize, crop, enhance',
+    'Pixels & color': 'pixel formats, transfer functions, color', 'Compression': 'DEFLATE, Zopfli, Zstandard, xxHash',
+    'Quality metrics': 'perceptual quality, to tune the codecs', 'Codec pickers': 'the right codec and quality per image',
     'Test corpora': 'images to test and train on', 'SIMD & Rust foundations': 'safe SIMD, cancellation, errors, benchmarks',
     'Developer tools': 'workspace, release and API tooling', 'Products': 'image servers and their bindings',
     'Other tools': 'everything else in use', 'Earlier work': 'the .NET and C years',
