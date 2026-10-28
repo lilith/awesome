@@ -447,6 +447,69 @@ def quality_report():
         f"[{SITE}]({SITE}).*", ''])
 
 
+TOPIC_NOTES = {
+    'Codecs': 'encode and decode, in safe Rust', 'AV1 and codec internals': 'the AV1 encoders, decoder and containers under AVIF',
+    'Processing': 'resize, quantize, blend, tone-map, enhance', 'Pixels & color': 'pixel formats, transfer functions, color',
+    'Pipeline & framework': 'streaming pipeline, codec traits, layout', 'Compression': 'DEFLATE, Zopfli, Zstandard',
+    'Psychovisual metrics': 'perceptual quality, to tune the codecs', 'Pickers & ML': 'the right codec and quality per image',
+    'Test corpora': 'images to test and train on', 'SIMD & Rust foundations': 'safe SIMD, cancellation, errors, benchmarks',
+    'Developer tools': 'workspace, release and API tooling', 'Products': 'image servers and their bindings',
+    'Other tools': 'everything else in use', 'Earlier work': 'the .NET and C years',
+}
+
+
+def readme_map(d, asof):
+    """The README map, the way the "Image tech I maintain" block at the end of many of these READMEs lists it, with
+    the page's topics and live counts: repositories, crates on crates.io and commits this year per topic; the most
+    used entries in bold."""
+    proj = {p['repository']: p for p in d['projects']}
+    published = {c['name'] for p in d['projects'] for c in p.get('crates') or [] if (c.get('crates_io') or {}).get('first_published')}
+    dl = {c['crate']: c.get('downloads_90d') or 0 for c in d['adoption']['crates']['by_crate']}
+    stars = {r: v.get('stars') or 0 for r, v in d['adoption']['github']['by_repository'].items()}
+    # Stars belong to a repository: they bold its main entry (named after it, or its only entry in the topic).
+    popular = lambda label, repo, sole: dl.get(label, 0) >= 10000 or bool(
+        repo and stars.get(repo, 0) >= 100 and (repo.split('/')[1].lower() == label.lower() or sole))
+    rows, refs = [], {}
+    for topic in d['guide']['topics']:
+        items, seen, repos = [], set(), set()
+        for it in topic['items']:
+            label, repo = it['label'], it.get('repository')
+            if label in seen or (repo and repo not in proj):
+                continue
+            seen.add(label)
+            if repo:
+                repos.add(repo)
+            refs.setdefault(label, it.get('url') or f'https://github.com/{repo}')
+            items.append((label, repo, it.get('parent')))
+        if not items:
+            continue
+        commits = sum((proj[r].get('commits') or 0) for r in repos)
+        crates = sum(1 for label, _, _ in items if label in published)
+        shown = items
+        if topic['label'] == 'Earlier work':  # the long tail: the ones people still star
+            shown = sorted([x for x in items if stars.get(x[1], 0) >= 20], key=lambda x: -stars.get(x[1], 0))
+        per_repo = {}
+        for _, repo, _ in shown:
+            per_repo[repo] = per_repo.get(repo, 0) + 1
+        link = lambda label, repo: f'**[{label}]**' if popular(label, repo, per_repo.get(repo) == 1) else f'[{label}]'
+        # Entries with a parent (the Imageflow bindings) sit in brackets after it, as in the README map.
+        children = {}
+        for label, repo, parent in shown:
+            if parent:
+                children.setdefault(parent, []).append(link(label, repo))
+        cells = ' · '.join(link(label, repo) + (f" ({' · '.join(children[label])})" if label in children else '')
+                           for label, repo, parent in shown if not parent)
+        if len(shown) < len(items):
+            cells += f' · [and {len(items) - len(shown)} more](reports/projects.md)'
+        facts = [f"{len(repos)} repo{'s' if len(repos) != 1 else ''}"] + ([f'{crates} on crates.io'] if crates else []) + ([f'{fmt(commits)} commits'] if commits else [])
+        rows.append(f"| **{topic['label']}**<br><sub>{esc(TOPIC_NOTES.get(topic['label'], ''))}</sub> | {cells} | <sub>{' · '.join(facts)}</sub> |")
+    links = ' · '.join(f"[{l['label']}]({l['url']})" for l in d['guide'].get('profile_links') or [])
+    block = ['| | | |', '|:--|:--|:--|', *rows, '',
+             f"<sub>**Bold**: the most used, with 10,000+ crates.io downloads in the last 90 days or 100+ GitHub stars. Commits are lilith's in {d['year']}. "
+             f"As of {asof}; live on [stats.lilith.now]({SITE}).</sub>", '', links, '']
+    return block, refs
+
+
 def readme(d, asof, meas):
     u, a = d['usage'], d['adoption']
     dep = u['dependents']
@@ -467,10 +530,12 @@ def readme(d, asof, meas):
         ('imazen/archmage', 'safe SIMD through capability tokens'),
         ('imazen/enough', 'cooperative cancellation for long-running Rust work'),
     ]
+    map_block, refs = readme_map(d, asof)
     lines = [
         '# awesome', '',
         f"Lilith River's open-source imaging work, in one place: what it is for, what is done, who depends on it, and how it is built. "
         f"Live numbers: **[{SITE.replace('https://', '').rstrip('/')}]({SITE})**.", '',
+        *map_block,
         f"> {g['directive']}", '',
         f'[![Goals: formats and processing, with what has shipped]({"assets/goals.svg"})]({SITE})', '',
         f"I've published open source on GitHub since {d['profile']['joined'][:4]}; {d['year']} is my {d['profile']['oss_year']}th year there, as "
@@ -514,6 +579,7 @@ def readme(d, asof, meas):
               f"`python3 tools/build.py` rebuilds every card and report from the public data behind [{SITE}]({SITE}) ({SITE}data.json); "
               'the GitHub and OpenSSF measurements are in [data/](data/) with their commands. Standard library only.', '',
               f"*Generated {asof} from data revision {d['revision'][:12]}.*", '']
+    lines += [f'[{label}]: {url}' for label, url in refs.items()] + ['']
     return '\n'.join(lines)
 
 
