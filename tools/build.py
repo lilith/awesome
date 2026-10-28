@@ -477,7 +477,8 @@ def readme_map(d, asof):
         items, seen, repos = [], set(), set()
         for it in topic['items']:
             label, repo = it['label'], it.get('repository')
-            if label in seen or (repo and repo not in proj):
+            # The owner's README footer choice (the zenfeats inbox) can leave a repository out of the map.
+            if label in seen or (repo and repo not in proj) or (repo and proj[repo].get('readme') is False):
                 continue
             seen.add(label)
             if repo:
