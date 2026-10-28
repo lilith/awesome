@@ -435,7 +435,7 @@ def corpus_paragraph(d):
         parts.append(f"[imazen-26](https://github.com/imazen/imazen-26), our real-world corpus, holds {fmt(i['originals'])} original images in "
                      f"{i['categories']} categories ({fmt(i['megapixels'])} megapixels) and {fmt(i['rendition_files'])} registered renditions of them")
     if c.get('builder'):
-        parts.append(f"the corpus builder has collected {fmt(c['builder']['image_files'])} image files in {c['builder']['formats']} format groups")
+        parts.append(f"the corpus builder has collected {fmt(c['builder']['image_files'])} image files in {c['builder']['formats']} groups (formats, animation, wide gamut, edge cases)")
     if c.get('research'):
         r = c['research']
         parts.append(f"the IQA research library holds {fmt(r['datasets'])} datasets with {fmt(r['tested'])} human-labelled test rows")

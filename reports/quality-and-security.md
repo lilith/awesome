@@ -14,6 +14,6 @@ Image codecs take bytes from strangers and turn them into pixels, usually on a s
 
 **What it replaces.** ImageMagick has [913 published vulnerabilities](https://app.opencve.io/cve/?vendor=imagemagick) (OpenCVE, checked 2026-10-28). This toolset is built to replace it on servers: memory-safe, faster, with better compression.
 
-**Measured test data.** [imazen-26](https://github.com/imazen/imazen-26), our real-world corpus, holds 2,115 original images in 21 categories (12,672 megapixels) and 25,766 registered renditions of them; the IQA research library holds 230 datasets with 799,030 human-labelled test rows. Counted from the corpora themselves, each figure in its own unit.
+**Measured test data.** [imazen-26](https://github.com/imazen/imazen-26), our real-world corpus, holds 2,115 original images in 21 categories (12,672 megapixels) and 25,766 registered renditions of them; the corpus builder has collected 148,177 image files in 16 groups (formats, animation, wide gamut, edge cases); the IQA research library holds 230 datasets with 799,030 human-labelled test rows. Counted from the corpora themselves, each figure in its own unit.
 
 *The owner's account; figures without a link are the owner's statements. The live version is chapter 05 of [https://stats.lilith.now/](https://stats.lilith.now/).*
